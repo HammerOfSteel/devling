@@ -897,6 +897,7 @@ Shader output, GPU driver behavior, exact pixel values outside goldens, three.js
 > Phase summaries in bold on phase close.
 
 ```
+2026-07-18 · 0.1 · MIRROR EXCEPTION — .github/workflows/*.yml withheld from mirror: integration token lacks the GitHub "Workflows" write permission (tree API 403s on any push containing them). Unblock: grant Workflows read+write to the app installation, or add the 2 files by hand. 0.1.5 live-CI verification pending until then · (this commit)
 2026-07-18 · 0.1 · TASK CLOSE — fresh-install smoke gate green (install → build → 18 unit → 1 smoke); tree mirrored to github.com/HammerOfSteel/devling @ phase/0-foundation · (this commit)
 2026-07-18 · 0.1 · mirror remote provisioned: public repo HammerOfSteel/devling (integration cannot create repos — user created it; API-commit mirror, local repo remains the granular history of record)
 2026-07-18 · 0.1.5 · fix(e2e): explicit node types (TS6 dropped @types auto-include) · (this commit) — caught by the task 0.1 fresh-install gate, not by incremental runs; future packages using process/fs must set types:["node"]
