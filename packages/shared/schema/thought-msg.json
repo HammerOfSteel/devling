@@ -1,0 +1,24 @@
+{
+  "$comment": "devling Controller API v1 — generated from @devling/shared, do not edit by hand (todo.md 0.2.4)",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "kind": {
+      "default": "reasoning",
+      "type": "string",
+      "enum": ["reasoning", "observation", "decision", "question"]
+    },
+    "ttlMs": {
+      "default": 20000,
+      "type": "integer",
+      "minimum": 1000,
+      "maximum": 120000
+    }
+  },
+  "required": ["text"]
+}

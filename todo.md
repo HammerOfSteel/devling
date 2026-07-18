@@ -7,7 +7,7 @@
 | **Project** | `devling` (working title) |
 | **Doc version** | 1.0.0 — initial master plan |
 | **Doc status** | ✅ Approved — this file is the single source of truth |
-| **Current state** | Phase 0 — Task 0.1 ✅ closed (gates green, mirrored) · **Next action → 0.2.1** |
+| **Current state** | Phase 0 — Tasks 0.1–0.2 ✅ closed · **Next action → 0.3.1** |
 | **Repo** | `devling/` monorepo (pnpm workspaces) · public mirror: [github.com/HammerOfSteel/devling](https://github.com/HammerOfSteel/devling) |
 | **Doc owner** | The build agent. Updated after **every** subtask. No exceptions. |
 
@@ -477,10 +477,10 @@ send("agent.thought", { text: "Backoff needs jitter or every viewer reconnects i
 #### Task 0.2 — `packages/shared`: protocol package
 *Smoke gate: a Node script imports built package, round-trips every message type.*
 
-- [ ] **0.2.1** Implement all §5.3 zod schemas + inferred types + `AgentStatus`/`EventType` enums. · *test:* valid/invalid fixtures per schema (boundary lengths, bad enums) · *commit:* `feat(shared): protocol schemas v1 [0.2.1]`
-- [ ] **0.2.2** Envelope helpers: `makeMsg(type, payload)` (uuid, ts), `parseMsg(raw)` (safe, discriminated), serialize round-trip. · *test:* round-trip equality; malformed JSON → typed error · *commit:* `feat(shared): envelope + parse helpers [0.2.2]`
-- [ ] **0.2.3** `mapping.ts`: typed Status→Performance spec table (§5.4) as data (location tags, prop ids, anim ids, mood, fx ids, hud accent). · *test:* every `AgentStatus` has exactly one entry; referenced ids are unique/known · *commit:* `feat(shared): status performance mapping spec [0.2.3]`
-- [ ] **0.2.4** JSON Schema export script (`z.toJSONSchema` → `schema/*.json`) wired into build. · *test:* emitted files valid JSON Schema; snapshot test · *commit:* `feat(shared): JSON schema export [0.2.4]`
+- [x] **0.2.1** Implement all §5.3 zod schemas + inferred types + `AgentStatus`/`EventType` enums. · *test:* valid/invalid fixtures per schema (boundary lengths, bad enums) · *commit:* `feat(shared): protocol schemas v1 [0.2.1]`
+- [x] **0.2.2** Envelope helpers: `makeMsg(type, payload)` (uuid, ts), `parseMsg(raw)` (safe, discriminated), serialize round-trip. · *test:* round-trip equality; malformed JSON → typed error · *commit:* `feat(shared): envelope + parse helpers [0.2.2]`
+- [x] **0.2.3** `mapping.ts`: typed Status→Performance spec table (§5.4) as data (location tags, prop ids, anim ids, mood, fx ids, hud accent). · *test:* every `AgentStatus` has exactly one entry; referenced ids are unique/known · *commit:* `feat(shared): status performance mapping spec [0.2.3]`
+- [x] **0.2.4** JSON Schema export script (`z.toJSONSchema` → `schema/*.json`) wired into build. · *test:* emitted files valid JSON Schema; snapshot test · *commit:* `feat(shared): JSON schema export [0.2.4]`
 
 #### Task 0.3 — `apps/server`: Bridge skeleton
 *Smoke gate: boot server → curl status → 202; viewer WS receives the broadcast within 100 ms.*
@@ -897,6 +897,11 @@ Shader output, GPU driver behavior, exact pixel values outside goldens, three.js
 > Phase summaries in bold on phase close.
 
 ```
+2026-07-18 · 0.2 · TASK CLOSE — smoke green (playwright harness + dist round-trip script); mirrored to phase/0-foundation
+2026-07-18 · 0.2.4 · feat(shared): JSON schema export · (this commit) — schema/ folder now checked in, regenerated on every shared build
+2026-07-18 · 0.2.3 · feat(shared): status performance mapping spec · (this commit)
+2026-07-18 · 0.2.2 · feat(shared): envelope + parse helpers · (this commit)
+2026-07-18 · 0.2.1 · feat(shared): protocol schemas v1 · (this commit)
 2026-07-18 · 0.1 · MIRROR EXCEPTION — .github/workflows/*.yml withheld from mirror: integration token lacks the GitHub "Workflows" write permission (tree API 403s on any push containing them). Unblock: grant Workflows read+write to the app installation, or add the 2 files by hand. 0.1.5 live-CI verification pending until then · (this commit)
 2026-07-18 · 0.1 · TASK CLOSE — fresh-install smoke gate green (install → build → 18 unit → 1 smoke); tree mirrored to github.com/HammerOfSteel/devling @ phase/0-foundation · (this commit)
 2026-07-18 · 0.1 · mirror remote provisioned: public repo HammerOfSteel/devling (integration cannot create repos — user created it; API-commit mirror, local repo remains the granular history of record)

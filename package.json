@@ -16,7 +16,7 @@
     "prepare": "husky",
     "test:unit": "vitest run --coverage",
     "test:unit:watch": "vitest",
-    "test:smoke": "pnpm --filter @devling/e2e smoke",
+    "test:smoke": "pnpm --filter @devling/e2e smoke && node packages/shared/scripts/smoke-roundtrip.mjs",
     "test:e2e": "pnpm --filter @devling/e2e e2e",
     "test:all": "pnpm lint && pnpm typecheck && pnpm test:unit && pnpm build && pnpm test:smoke && pnpm test:e2e"
   },

@@ -1,0 +1,28 @@
+{
+  "$comment": "devling Controller API v1 — generated from @devling/shared, do not edit by hand (todo.md 0.2.4)",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "tests_passed",
+        "tests_failed",
+        "build_failed",
+        "lint_failed",
+        "commit",
+        "push",
+        "pr_opened",
+        "pr_merged",
+        "deploy",
+        "milestone",
+        "user_message"
+      ]
+    },
+    "detail": {
+      "type": "string",
+      "maxLength": 200
+    }
+  },
+  "required": ["type"]
+}

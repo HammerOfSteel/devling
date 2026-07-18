@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`JSON Schema export manifest (0.2.4) > enum export matches the wire contract (snapshot) 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "enum": [
+    "idle",
+    "thinking",
+    "planning",
+    "researching",
+    "reading_docs",
+    "coding",
+    "refactoring",
+    "debugging",
+    "testing",
+    "waiting",
+    "reviewing",
+    "committing",
+    "blocked",
+    "error",
+    "success",
+    "celebrating",
+  ],
+  "type": "string",
+}
+`;

@@ -12,10 +12,15 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "schema"
   ],
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json && node scripts/export-schemas.mjs"
+  },
+  "dependencies": {
+    "uuid": "14.0.1",
+    "zod": "4.4.3"
   }
 }
