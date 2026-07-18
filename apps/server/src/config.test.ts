@@ -44,7 +44,7 @@ describe("loadConfig (0.3.1)", () => {
     [{ DEVLING_PORT: "abc" }, "port NaN"],
     [{ DEVLING_TOKEN: "short" }, "token under 8 chars"],
     [{ DEVLING_RATE_LIMIT_MAX: "-1" }, "negative rate limit"],
-  ])("rejects %j (%s)", (env) => {
-    expect(() => loadConfig(env)).toThrowError();
+  ])("rejects %j (%s)", (env, label) => {
+    expect(() => loadConfig(env), label).toThrowError();
   });
 });

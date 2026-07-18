@@ -20,7 +20,7 @@ export default defineConfig({
       "test/**/*.test.ts",
     ],
     coverage: {
-      provider: "v8",
+      provider: "istanbul",
       include: ["packages/shared/src/**", "packages/sim/src/**", "packages/procgen/src/**"],
       exclude: ["**/*.test.ts"],
       thresholds: { lines: 80, functions: 80, statements: 80, branches: 70 },

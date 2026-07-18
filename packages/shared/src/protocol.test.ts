@@ -42,8 +42,8 @@ describe("StatusMsg", () => {
     [{ status: "coding", detail: "x".repeat(201) }, "detail too long"],
     [{ status: "coding", file: "x".repeat(161) }, "file too long"],
     [{}, "missing status"],
-  ])("rejects %j (%s)", (bad) => {
-    expect(StatusMsg.safeParse(bad).success).toBe(false);
+  ])("rejects %j (%s)", (bad, label) => {
+    expect(StatusMsg.safeParse(bad).success, label).toBe(false);
   });
 
   it("accepts boundary lengths exactly", () => {
@@ -68,8 +68,8 @@ describe("ThoughtMsg", () => {
     [{ text: "ok", ttlMs: 120_001 }, "ttl above cap"],
     [{ text: "ok", ttlMs: 1500.5 }, "non-integer ttl"],
     [{ text: "ok", kind: "musing" }, "unknown kind"],
-  ])("rejects %j (%s)", (bad) => {
-    expect(ThoughtMsg.safeParse(bad).success).toBe(false);
+  ])("rejects %j (%s)", (bad, label) => {
+    expect(ThoughtMsg.safeParse(bad).success, label).toBe(false);
   });
 });
 
@@ -86,8 +86,8 @@ describe("TaskMsg", () => {
     [{ taskId: "a", title: "", status: "started" }, "empty title"],
     [{ taskId: "a", title: "t", status: "paused" }, "unknown state"],
     [{ taskId: "a", title: "t", status: "progress", progress: 1.01 }, "progress > 1"],
-  ])("rejects %j (%s)", (bad) => {
-    expect(TaskMsg.safeParse(bad).success).toBe(false);
+  ])("rejects %j (%s)", (bad, label) => {
+    expect(TaskMsg.safeParse(bad).success, label).toBe(false);
   });
 });
 

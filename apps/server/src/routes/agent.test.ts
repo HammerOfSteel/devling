@@ -25,7 +25,7 @@ async function mkApp() {
   return { app, sink };
 }
 
-const VALID: Array<{ path: string; type: string; body: unknown }> = [
+const VALID: Array<{ path: string; type: string; body: Record<string, unknown> }> = [
   { path: "session", type: "agent.session", body: { state: "start", agentName: "Claude" } },
   { path: "status", type: "agent.status", body: { status: "debugging", intensity: 0.8 } },
   { path: "thought", type: "agent.thought", body: { text: "stairs eat two cells" } },

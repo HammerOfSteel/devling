@@ -7,7 +7,7 @@
 | **Project** | `devling` (working title) |
 | **Doc version** | 1.0.0 — initial master plan |
 | **Doc status** | ✅ Approved — this file is the single source of truth |
-| **Current state** | Phase 0 — Task 0.3 code done · **Next action → task 0.3 close (smoke + push)** |
+| **Current state** | Phase 0 — Tasks 0.1–0.3 ✅ closed · **Next action → 0.4.1** |
 | **Repo** | `devling/` monorepo (pnpm workspaces) · public mirror: [github.com/HammerOfSteel/devling](https://github.com/HammerOfSteel/devling) |
 | **Doc owner** | The build agent. Updated after **every** subtask. No exceptions. |
 
@@ -186,7 +186,7 @@ Verified current as of **2026-07** (three.js r185 is the July 2026 release; Node
 
 | Concern | Choice | Repo / Package | Why |
 |---|---|---|---|
-| Unit | **Vitest** + `@vitest/coverage-v8` | `vitest-dev/vitest` | Workspace-aware, fast, fake timers for clock/XState tests. |
+| Unit | **Vitest** + `@vitest/coverage-istanbul` | `vitest-dev/vitest` | Workspace-aware, fast, fake timers for clock/XState tests. |
 | Smoke / e2e | **Playwright** (Chromium, fixed 1280×800 @ DPR 1) | `microsoft/playwright` | Boots real client+server; asserts via `window.__devling` hook. |
 | Visual regression | **pixelmatch** + **pngjs** golden frames | `mapbox/pixelmatch` | Deterministic renders (fixed seed/clock/camera) diffed in CI. |
 | Lint/format | **eslint** (flat) + **typescript-eslint** + **prettier**; **husky** + **lint-staged** | — | The workflow contract, mechanically enforced pre-commit. |
@@ -211,7 +211,7 @@ zustand@5.0.14              zod@4.4.3                   alea@1.0.1
 simplex-noise@4.0.3         poisson-disk-sampling@2.3.1 chroma-js@3.2.0
 fast-check@4.9.0            fastify@5.10.0              @fastify/websocket@11.3.0
 @fastify/cors@11.3.0        @fastify/rate-limit@11.1.0  fastify-type-provider-zod@7.0.0
-pino@10.3.1                 vitest@4.1.10               @vitest/coverage-v8@4.1.10
+pino@10.3.1                 vitest@4.1.10               @vitest/coverage-istanbul@4.1.10
 @playwright/test@1.61.1     pixelmatch@7.2.0            pngjs@7.0.0
 eslint@10.7.0               @eslint/js@10.0.1           typescript-eslint@8.64.0
 eslint-config-prettier@10.1.8  prettier@3.9.5           husky@9.1.7
@@ -897,6 +897,7 @@ Shader output, GPU driver behavior, exact pixel values outside goldens, three.js
 > Phase summaries in bold on phase close.
 
 ```
+2026-07-18 · 0.3 · TASK CLOSE (repaired) — d038a9c was a false close; fixes: TS6 baseUrl, it.each typings, hardened gate helpers (+typecheck per subtask), stale src/*.js droppings removed + tripwire test added, coverage → istanbul (3× stable green). Full postmortem in this commit message
 2026-07-18 · 0.3.5 · feat(server): state snapshot endpoint · (this commit)
 2026-07-18 · 0.3.4 · feat(server): auth, rate limit, cors · (this commit) — gate catch: custom error handler must forward err.statusCode or 429s flatten to 200
 2026-07-18 · 0.3.3 · feat(server): ws hub + replay ring · (this commit) — first attempt of the wiring test raced hello frames against listener attach; fixed with queue-based readers
