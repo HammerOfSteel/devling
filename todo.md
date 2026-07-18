@@ -7,7 +7,7 @@
 | **Project** | `devling` (working title) |
 | **Doc version** | 1.0.0 — initial master plan |
 | **Doc status** | ✅ Approved — this file is the single source of truth |
-| **Current state** | Phase 0 — Task 0.1 ✅ closed (gates green, mirrored) · **Next action → 0.2.1** |
+| **Current state** | 🏁 Phase 0 ✅ CLOSED (tag phase-0) · **Next action → open phase/1-render-core, then 1.1.1** |
 | **Repo** | `devling/` monorepo (pnpm workspaces) · public mirror: [github.com/HammerOfSteel/devling](https://github.com/HammerOfSteel/devling) |
 | **Doc owner** | The build agent. Updated after **every** subtask. No exceptions. |
 
@@ -186,7 +186,7 @@ Verified current as of **2026-07** (three.js r185 is the July 2026 release; Node
 
 | Concern | Choice | Repo / Package | Why |
 |---|---|---|---|
-| Unit | **Vitest** + `@vitest/coverage-v8` | `vitest-dev/vitest` | Workspace-aware, fast, fake timers for clock/XState tests. |
+| Unit | **Vitest** + `@vitest/coverage-istanbul` | `vitest-dev/vitest` | Workspace-aware, fast, fake timers for clock/XState tests. |
 | Smoke / e2e | **Playwright** (Chromium, fixed 1280×800 @ DPR 1) | `microsoft/playwright` | Boots real client+server; asserts via `window.__devling` hook. |
 | Visual regression | **pixelmatch** + **pngjs** golden frames | `mapbox/pixelmatch` | Deterministic renders (fixed seed/clock/camera) diffed in CI. |
 | Lint/format | **eslint** (flat) + **typescript-eslint** + **prettier**; **husky** + **lint-staged** | — | The workflow contract, mechanically enforced pre-commit. |
@@ -211,7 +211,7 @@ zustand@5.0.14              zod@4.4.3                   alea@1.0.1
 simplex-noise@4.0.3         poisson-disk-sampling@2.3.1 chroma-js@3.2.0
 fast-check@4.9.0            fastify@5.10.0              @fastify/websocket@11.3.0
 @fastify/cors@11.3.0        @fastify/rate-limit@11.1.0  fastify-type-provider-zod@7.0.0
-pino@10.3.1                 vitest@4.1.10               @vitest/coverage-v8@4.1.10
+pino@10.3.1                 vitest@4.1.10               @vitest/coverage-istanbul@4.1.10
 @playwright/test@1.61.1     pixelmatch@7.2.0            pngjs@7.0.0
 eslint@10.7.0               @eslint/js@10.0.1           typescript-eslint@8.64.0
 eslint-config-prettier@10.1.8  prettier@3.9.5           husky@9.1.7
@@ -477,27 +477,27 @@ send("agent.thought", { text: "Backoff needs jitter or every viewer reconnects i
 #### Task 0.2 — `packages/shared`: protocol package
 *Smoke gate: a Node script imports built package, round-trips every message type.*
 
-- [ ] **0.2.1** Implement all §5.3 zod schemas + inferred types + `AgentStatus`/`EventType` enums. · *test:* valid/invalid fixtures per schema (boundary lengths, bad enums) · *commit:* `feat(shared): protocol schemas v1 [0.2.1]`
-- [ ] **0.2.2** Envelope helpers: `makeMsg(type, payload)` (uuid, ts), `parseMsg(raw)` (safe, discriminated), serialize round-trip. · *test:* round-trip equality; malformed JSON → typed error · *commit:* `feat(shared): envelope + parse helpers [0.2.2]`
-- [ ] **0.2.3** `mapping.ts`: typed Status→Performance spec table (§5.4) as data (location tags, prop ids, anim ids, mood, fx ids, hud accent). · *test:* every `AgentStatus` has exactly one entry; referenced ids are unique/known · *commit:* `feat(shared): status performance mapping spec [0.2.3]`
-- [ ] **0.2.4** JSON Schema export script (`z.toJSONSchema` → `schema/*.json`) wired into build. · *test:* emitted files valid JSON Schema; snapshot test · *commit:* `feat(shared): JSON schema export [0.2.4]`
+- [x] **0.2.1** Implement all §5.3 zod schemas + inferred types + `AgentStatus`/`EventType` enums. · *test:* valid/invalid fixtures per schema (boundary lengths, bad enums) · *commit:* `feat(shared): protocol schemas v1 [0.2.1]`
+- [x] **0.2.2** Envelope helpers: `makeMsg(type, payload)` (uuid, ts), `parseMsg(raw)` (safe, discriminated), serialize round-trip. · *test:* round-trip equality; malformed JSON → typed error · *commit:* `feat(shared): envelope + parse helpers [0.2.2]`
+- [x] **0.2.3** `mapping.ts`: typed Status→Performance spec table (§5.4) as data (location tags, prop ids, anim ids, mood, fx ids, hud accent). · *test:* every `AgentStatus` has exactly one entry; referenced ids are unique/known · *commit:* `feat(shared): status performance mapping spec [0.2.3]`
+- [x] **0.2.4** JSON Schema export script (`z.toJSONSchema` → `schema/*.json`) wired into build. · *test:* emitted files valid JSON Schema; snapshot test · *commit:* `feat(shared): JSON schema export [0.2.4]`
 
 #### Task 0.3 — `apps/server`: Bridge skeleton
 *Smoke gate: boot server → curl status → 202; viewer WS receives the broadcast within 100 ms.*
 
-- [ ] **0.3.1** Fastify v5 boot, env config (`DEVLING_TOKEN`, `DEVLING_PORT=7777`, `DEVLING_PUBLIC`), `/api/v1/health`, pino logging. · *test:* inject() health 200 with version · *commit:* `feat(server): fastify boot + health [0.3.1]`
-- [ ] **0.3.2** zod type-provider wiring; all §5.2 POST routes validating via shared schemas → 202/400(issues). · *test:* per-route valid→202, invalid→400 with zod issues · *commit:* `feat(server): agent REST routes [0.3.2]`
-- [ ] **0.3.3** WS hub: `/ws/v1/agent` + `/ws/v1/viewer`, envelope validation, fan-out to viewers, heartbeat ping/pong, 60-msg replay ring per viewer. · *test:* fake sockets — agent msg reaches 2 viewers; late viewer gets ring replay · *commit:* `feat(server): ws hub + replay ring [0.3.3]`
-- [ ] **0.3.4** Bearer-auth hook (REST + WS query token), @fastify/rate-limit (20 r/s, 429+retryAfterMs), @fastify/cors. · *test:* 401 w/o token; 429 after burst; CORS preflight ok · *commit:* `feat(server): auth, rate limit, cors [0.3.4]`
-- [ ] **0.3.5** `GET /api/v1/state` skeleton (serves last-known snapshot pushed by primary viewer over WS `viewer.state` uplink). · *test:* snapshot set→get round-trip · *commit:* `feat(server): state snapshot endpoint [0.3.5]`
+- [x] **0.3.1** Fastify v5 boot, env config (`DEVLING_TOKEN`, `DEVLING_PORT=7777`, `DEVLING_PUBLIC`), `/api/v1/health`, pino logging. · *test:* inject() health 200 with version · *commit:* `feat(server): fastify boot + health [0.3.1]`
+- [x] **0.3.2** zod type-provider wiring; all §5.2 POST routes validating via shared schemas → 202/400(issues). · *test:* per-route valid→202, invalid→400 with zod issues · *commit:* `feat(server): agent REST routes [0.3.2]`
+- [x] **0.3.3** WS hub: `/ws/v1/agent` + `/ws/v1/viewer`, envelope validation, fan-out to viewers, heartbeat ping/pong, 60-msg replay ring per viewer. · *test:* fake sockets — agent msg reaches 2 viewers; late viewer gets ring replay · *commit:* `feat(server): ws hub + replay ring [0.3.3]`
+- [x] **0.3.4** Bearer-auth hook (REST + WS query token), @fastify/rate-limit (20 r/s, 429+retryAfterMs), @fastify/cors. · *test:* 401 w/o token; 429 after burst; CORS preflight ok · *commit:* `feat(server): auth, rate limit, cors [0.3.4]`
+- [x] **0.3.5** `GET /api/v1/state` skeleton (serves last-known snapshot pushed by primary viewer over WS `viewer.state` uplink). · *test:* snapshot set→get round-trip · *commit:* `feat(server): state snapshot endpoint [0.3.5]`
 
 #### Task 0.4 — `apps/client`: shell & loop
 *Smoke gate: page boots with zero console errors; hook reports ticking sim; cube visibly rotates in golden frame.*
 
-- [ ] **0.4.1** Vite app: canvas mount, `WebGLRenderer` (ACESFilmic, outputColorSpace srgb), resize handling, DPR clamp (≤2). · *test:* renderer constructed in jsdom-guarded factory; params asserted · *commit:* `feat(client): renderer shell [0.4.1]`
-- [ ] **0.4.2** `core/loop.ts`: 20 Hz fixed-step accumulator + rAF render with interpolation alpha; pause on `visibilitychange`. · *test:* fake timers — 1 s wall ⇒ 20 ticks; alpha ∈ [0,1); hidden tab ⇒ throttled · *commit:* `feat(client): fixed-timestep loop [0.4.2]`
-- [ ] **0.4.3** Walking-skeleton scene: ground plane, spinning placeholder cube, directional+ambient light — proves the whole pipe. · *test:* scene graph contains expected nodes (unit); golden frame #0 · *commit:* `feat(client): walking skeleton scene [0.4.3]`
-- [ ] **0.4.4** Debug rail: stats-gl, lil-gui (hidden behind `?debug`), seed readout, `window.__devling` hook v0 (`state()`, `drainEvents()`). · *test:* hook returns tick>0 after 500 ms (vitest browser-ish via happy-dom where possible) · *commit:* `feat(client): debug rail + test hook [0.4.4]`
+- [x] **0.4.1** Vite app: canvas mount, `WebGLRenderer` (ACESFilmic, outputColorSpace srgb), resize handling, DPR clamp (≤2). · *test:* renderer constructed in jsdom-guarded factory; params asserted · *commit:* `feat(client): renderer shell [0.4.1]`
+- [x] **0.4.2** `core/loop.ts`: 20 Hz fixed-step accumulator + rAF render with interpolation alpha; pause on `visibilitychange`. · *test:* fake timers — 1 s wall ⇒ 20 ticks; alpha ∈ [0,1); hidden tab ⇒ throttled · *commit:* `feat(client): fixed-timestep loop [0.4.2]`
+- [x] **0.4.3** Walking-skeleton scene: ground plane, spinning placeholder cube, directional+ambient light — proves the whole pipe. · *test:* scene graph contains expected nodes (unit); golden frame #0 · *commit:* `feat(client): walking skeleton scene [0.4.3]`
+- [x] **0.4.4** Debug rail: stats-gl, lil-gui (hidden behind `?debug`), seed readout, `window.__devling` hook v0 (`state()`, `drainEvents()`). · *test:* hook returns tick>0 after 500 ms (vitest browser-ish via happy-dom where possible) · *commit:* `feat(client): debug rail + test hook [0.4.4]`
 
 **Phase 0 exit ritual:** `pnpm test:all` → merge → `git tag phase-0` → update §11.
 
@@ -897,6 +897,25 @@ Shader output, GPU driver behavior, exact pixel values outside goldens, three.js
 > Phase summaries in bold on phase close.
 
 ```
+**2026-07-18 · PHASE 0 CLOSED — test:all green (lint + typecheck + 157 unit + build + 2 e2e + 2 smoke, broadcast 12.4ms); merged --no-ff into main, annotated tag phase-0. 18/18 subtasks, 4 task closes (0.3 repaired with full postmortem). CI-ON-MIRROR CAVEAT: workflows push still 403 (GitHub Workflows permission not granted) — ci.yml/phase.yml remain local-only, mirror tag creation unavailable via API; the "green in CI on a fresh clone" half of the exit completes when the permission lands.**
+2026-07-18 · 0.4 · phase-gate catch — .mjs helper scripts had no lint environment (lint-staged only feeds eslint *.ts); node-globals block added to flat config · (this commit)
+2026-07-18 · 0.4 · TASK CLOSE — smoke green (browser boot @20Hz via __devling, WebGL headless, golden #0 staged); mirrored to phase/0-foundation
+2026-07-18 · 0.4.4 · feat(client): debug rail + test hook · (this commit)
+2026-07-18 · 0.4.3 · feat(client): walking skeleton scene · (this commit)
+2026-07-18 · 0.4.2 · feat(client): fixed-timestep loop · (this commit) — test feed fixed to integer frames (16.67×60 fp drift undershot the loop bound)
+2026-07-18 · 0.4.1 · feat(client): renderer shell · (this commit)
+2026-07-18 · 0.3 · TASK CLOSE (repaired) — d038a9c was a false close; fixes: TS6 baseUrl, it.each typings, hardened gate helpers (+typecheck per subtask), stale src/*.js droppings removed + tripwire test added, coverage → istanbul (3× stable green). Full postmortem in this commit message
+2026-07-18 · 0.3.5 · feat(server): state snapshot endpoint · (this commit)
+2026-07-18 · 0.3.4 · feat(server): auth, rate limit, cors · (this commit) — gate catch: custom error handler must forward err.statusCode or 429s flatten to 200
+2026-07-18 · 0.3.3 · feat(server): ws hub + replay ring · (this commit) — first attempt of the wiring test raced hello frames against listener attach; fixed with queue-based readers
+2026-07-18 · 0.3.2 · feat(server): agent REST routes · (this commit)
+2026-07-18 · 0.3.1 · feat(server): fastify boot + health · (this commit)
+2026-07-18 · 0.2 · TASK CLOSE — smoke green (playwright harness + dist round-trip script); mirrored to phase/0-foundation
+2026-07-18 · 0.2.4 · feat(shared): JSON schema export · (this commit) — schema/ folder now checked in, regenerated on every shared build
+2026-07-18 · 0.2.3 · feat(shared): status performance mapping spec · (this commit)
+2026-07-18 · 0.2.2 · feat(shared): envelope + parse helpers · (this commit)
+2026-07-18 · 0.2.1 · feat(shared): protocol schemas v1 · (this commit)
+2026-07-18 · 0.1 · MIRROR EXCEPTION — .github/workflows/*.yml withheld from mirror: integration token lacks the GitHub "Workflows" write permission (tree API 403s on any push containing them). Unblock: grant Workflows read+write to the app installation, or add the 2 files by hand. 0.1.5 live-CI verification pending until then · (this commit)
 2026-07-18 · 0.1 · TASK CLOSE — fresh-install smoke gate green (install → build → 18 unit → 1 smoke); tree mirrored to github.com/HammerOfSteel/devling @ phase/0-foundation · (this commit)
 2026-07-18 · 0.1 · mirror remote provisioned: public repo HammerOfSteel/devling (integration cannot create repos — user created it; API-commit mirror, local repo remains the granular history of record)
 2026-07-18 · 0.1.5 · fix(e2e): explicit node types (TS6 dropped @types auto-include) · (this commit) — caught by the task 0.1 fresh-install gate, not by incremental runs; future packages using process/fs must set types:["node"]

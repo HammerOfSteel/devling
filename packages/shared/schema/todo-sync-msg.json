@@ -1,0 +1,12 @@
+{
+  "$comment": "devling Controller API v1 — generated from @devling/shared, do not edit by hand (todo.md 0.2.4)",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "markdown": {
+      "type": "string",
+      "maxLength": 200000
+    }
+  },
+  "required": ["markdown"]
+}

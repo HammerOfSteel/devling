@@ -1,0 +1,45 @@
+{
+  "name": "devling",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.34.3",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "typecheck": "pnpm -r typecheck",
+    "build": "pnpm -r build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "prepare": "husky",
+    "test:unit": "vitest run --coverage",
+    "test:unit:watch": "vitest",
+    "test:smoke": "pnpm --filter @devling/e2e smoke && node packages/shared/scripts/smoke-roundtrip.mjs && node apps/server/scripts/smoke.mjs",
+    "test:e2e": "pnpm --filter @devling/e2e e2e",
+    "test:all": "pnpm lint && pnpm typecheck && pnpm test:unit && pnpm build && pnpm test:smoke && pnpm test:e2e"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@vitest/coverage-istanbul": "4.1.10",
+    "eslint": "10.7.0",
+    "eslint-config-prettier": "10.1.8",
+    "husky": "9.1.7",
+    "lint-staged": "17.0.8",
+    "prettier": "3.9.5",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.64.0",
+    "vitest": "4.1.10",
+    "yaml": "2.9.0"
+  },
+  "lint-staged": {
+    "*.{ts,mts,cts}": [
+      "eslint --fix --max-warnings 0",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml,mjs,cjs,js}": [
+      "prettier --write"
+    ]
+  }
+}
