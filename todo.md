@@ -7,7 +7,7 @@
 | **Project** | `devling` (working title) |
 | **Doc version** | 1.0.0 — initial master plan |
 | **Doc status** | ✅ Approved — this file is the single source of truth |
-| **Current state** | Phase 0 — Tasks 0.1–0.3 ✅ closed · **Next action → 0.4.1** |
+| **Current state** | Phase 0 — ALL TASKS ✅ (0.1–0.4) · **Next action → Phase 0 exit ritual (test:all → merge → tag phase-0)** |
 | **Repo** | `devling/` monorepo (pnpm workspaces) · public mirror: [github.com/HammerOfSteel/devling](https://github.com/HammerOfSteel/devling) |
 | **Doc owner** | The build agent. Updated after **every** subtask. No exceptions. |
 
@@ -494,10 +494,10 @@ send("agent.thought", { text: "Backoff needs jitter or every viewer reconnects i
 #### Task 0.4 — `apps/client`: shell & loop
 *Smoke gate: page boots with zero console errors; hook reports ticking sim; cube visibly rotates in golden frame.*
 
-- [ ] **0.4.1** Vite app: canvas mount, `WebGLRenderer` (ACESFilmic, outputColorSpace srgb), resize handling, DPR clamp (≤2). · *test:* renderer constructed in jsdom-guarded factory; params asserted · *commit:* `feat(client): renderer shell [0.4.1]`
-- [ ] **0.4.2** `core/loop.ts`: 20 Hz fixed-step accumulator + rAF render with interpolation alpha; pause on `visibilitychange`. · *test:* fake timers — 1 s wall ⇒ 20 ticks; alpha ∈ [0,1); hidden tab ⇒ throttled · *commit:* `feat(client): fixed-timestep loop [0.4.2]`
-- [ ] **0.4.3** Walking-skeleton scene: ground plane, spinning placeholder cube, directional+ambient light — proves the whole pipe. · *test:* scene graph contains expected nodes (unit); golden frame #0 · *commit:* `feat(client): walking skeleton scene [0.4.3]`
-- [ ] **0.4.4** Debug rail: stats-gl, lil-gui (hidden behind `?debug`), seed readout, `window.__devling` hook v0 (`state()`, `drainEvents()`). · *test:* hook returns tick>0 after 500 ms (vitest browser-ish via happy-dom where possible) · *commit:* `feat(client): debug rail + test hook [0.4.4]`
+- [x] **0.4.1** Vite app: canvas mount, `WebGLRenderer` (ACESFilmic, outputColorSpace srgb), resize handling, DPR clamp (≤2). · *test:* renderer constructed in jsdom-guarded factory; params asserted · *commit:* `feat(client): renderer shell [0.4.1]`
+- [x] **0.4.2** `core/loop.ts`: 20 Hz fixed-step accumulator + rAF render with interpolation alpha; pause on `visibilitychange`. · *test:* fake timers — 1 s wall ⇒ 20 ticks; alpha ∈ [0,1); hidden tab ⇒ throttled · *commit:* `feat(client): fixed-timestep loop [0.4.2]`
+- [x] **0.4.3** Walking-skeleton scene: ground plane, spinning placeholder cube, directional+ambient light — proves the whole pipe. · *test:* scene graph contains expected nodes (unit); golden frame #0 · *commit:* `feat(client): walking skeleton scene [0.4.3]`
+- [x] **0.4.4** Debug rail: stats-gl, lil-gui (hidden behind `?debug`), seed readout, `window.__devling` hook v0 (`state()`, `drainEvents()`). · *test:* hook returns tick>0 after 500 ms (vitest browser-ish via happy-dom where possible) · *commit:* `feat(client): debug rail + test hook [0.4.4]`
 
 **Phase 0 exit ritual:** `pnpm test:all` → merge → `git tag phase-0` → update §11.
 
@@ -897,6 +897,11 @@ Shader output, GPU driver behavior, exact pixel values outside goldens, three.js
 > Phase summaries in bold on phase close.
 
 ```
+2026-07-18 · 0.4 · TASK CLOSE — smoke green (browser boot @20Hz via __devling, WebGL headless, golden #0 staged); mirrored to phase/0-foundation
+2026-07-18 · 0.4.4 · feat(client): debug rail + test hook · (this commit)
+2026-07-18 · 0.4.3 · feat(client): walking skeleton scene · (this commit)
+2026-07-18 · 0.4.2 · feat(client): fixed-timestep loop · (this commit) — test feed fixed to integer frames (16.67×60 fp drift undershot the loop bound)
+2026-07-18 · 0.4.1 · feat(client): renderer shell · (this commit)
 2026-07-18 · 0.3 · TASK CLOSE (repaired) — d038a9c was a false close; fixes: TS6 baseUrl, it.each typings, hardened gate helpers (+typecheck per subtask), stale src/*.js droppings removed + tripwire test added, coverage → istanbul (3× stable green). Full postmortem in this commit message
 2026-07-18 · 0.3.5 · feat(server): state snapshot endpoint · (this commit)
 2026-07-18 · 0.3.4 · feat(server): auth, rate limit, cors · (this commit) — gate catch: custom error handler must forward err.statusCode or 429s flatten to 200

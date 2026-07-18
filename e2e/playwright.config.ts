@@ -11,6 +11,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: [["list"]],
   use: {
+    baseURL: "http://127.0.0.1:5173",
     headless: true,
     viewport: { width: 1280, height: 800 },
     deviceScaleFactor: 1,
@@ -26,6 +27,11 @@ export default defineConfig({
       },
     },
   ],
-  // TODO(0.4.4): webServer entries boot apps/client (vite) + apps/server (Bridge)
-  // once they exist; specs then target http://localhost:5173 with __devling hook.
+  // Bridge server joins here in Phase 5 (integration proof 5.5.3).
+  webServer: {
+    command: "pnpm --filter @devling/client dev",
+    url: "http://127.0.0.1:5173",
+    reuseExistingServer: !process.env.CI,
+    timeout: 60_000,
+  },
 });

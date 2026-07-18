@@ -9,3 +9,4 @@ test-results/
 .env.*
 !.env.example
 .vite/
+e2e/golden/__staging__/
