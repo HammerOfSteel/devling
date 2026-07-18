@@ -14,6 +14,12 @@
     "moduleDetection": "force",
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@devling/shared": ["packages/shared/src/index.ts"],
+      "@devling/sim": ["packages/sim/src/index.ts"],
+      "@devling/procgen": ["packages/procgen/src/index.ts"]
+    }
   }
 }

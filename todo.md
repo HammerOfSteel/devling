@@ -7,7 +7,7 @@
 | **Project** | `devling` (working title) |
 | **Doc version** | 1.0.0 — initial master plan |
 | **Doc status** | ✅ Approved — this file is the single source of truth |
-| **Current state** | Phase 0 — Tasks 0.1–0.2 ✅ closed · **Next action → 0.3.1** |
+| **Current state** | Phase 0 — Task 0.3 code done · **Next action → task 0.3 close (smoke + push)** |
 | **Repo** | `devling/` monorepo (pnpm workspaces) · public mirror: [github.com/HammerOfSteel/devling](https://github.com/HammerOfSteel/devling) |
 | **Doc owner** | The build agent. Updated after **every** subtask. No exceptions. |
 
@@ -485,11 +485,11 @@ send("agent.thought", { text: "Backoff needs jitter or every viewer reconnects i
 #### Task 0.3 — `apps/server`: Bridge skeleton
 *Smoke gate: boot server → curl status → 202; viewer WS receives the broadcast within 100 ms.*
 
-- [ ] **0.3.1** Fastify v5 boot, env config (`DEVLING_TOKEN`, `DEVLING_PORT=7777`, `DEVLING_PUBLIC`), `/api/v1/health`, pino logging. · *test:* inject() health 200 with version · *commit:* `feat(server): fastify boot + health [0.3.1]`
-- [ ] **0.3.2** zod type-provider wiring; all §5.2 POST routes validating via shared schemas → 202/400(issues). · *test:* per-route valid→202, invalid→400 with zod issues · *commit:* `feat(server): agent REST routes [0.3.2]`
-- [ ] **0.3.3** WS hub: `/ws/v1/agent` + `/ws/v1/viewer`, envelope validation, fan-out to viewers, heartbeat ping/pong, 60-msg replay ring per viewer. · *test:* fake sockets — agent msg reaches 2 viewers; late viewer gets ring replay · *commit:* `feat(server): ws hub + replay ring [0.3.3]`
-- [ ] **0.3.4** Bearer-auth hook (REST + WS query token), @fastify/rate-limit (20 r/s, 429+retryAfterMs), @fastify/cors. · *test:* 401 w/o token; 429 after burst; CORS preflight ok · *commit:* `feat(server): auth, rate limit, cors [0.3.4]`
-- [ ] **0.3.5** `GET /api/v1/state` skeleton (serves last-known snapshot pushed by primary viewer over WS `viewer.state` uplink). · *test:* snapshot set→get round-trip · *commit:* `feat(server): state snapshot endpoint [0.3.5]`
+- [x] **0.3.1** Fastify v5 boot, env config (`DEVLING_TOKEN`, `DEVLING_PORT=7777`, `DEVLING_PUBLIC`), `/api/v1/health`, pino logging. · *test:* inject() health 200 with version · *commit:* `feat(server): fastify boot + health [0.3.1]`
+- [x] **0.3.2** zod type-provider wiring; all §5.2 POST routes validating via shared schemas → 202/400(issues). · *test:* per-route valid→202, invalid→400 with zod issues · *commit:* `feat(server): agent REST routes [0.3.2]`
+- [x] **0.3.3** WS hub: `/ws/v1/agent` + `/ws/v1/viewer`, envelope validation, fan-out to viewers, heartbeat ping/pong, 60-msg replay ring per viewer. · *test:* fake sockets — agent msg reaches 2 viewers; late viewer gets ring replay · *commit:* `feat(server): ws hub + replay ring [0.3.3]`
+- [x] **0.3.4** Bearer-auth hook (REST + WS query token), @fastify/rate-limit (20 r/s, 429+retryAfterMs), @fastify/cors. · *test:* 401 w/o token; 429 after burst; CORS preflight ok · *commit:* `feat(server): auth, rate limit, cors [0.3.4]`
+- [x] **0.3.5** `GET /api/v1/state` skeleton (serves last-known snapshot pushed by primary viewer over WS `viewer.state` uplink). · *test:* snapshot set→get round-trip · *commit:* `feat(server): state snapshot endpoint [0.3.5]`
 
 #### Task 0.4 — `apps/client`: shell & loop
 *Smoke gate: page boots with zero console errors; hook reports ticking sim; cube visibly rotates in golden frame.*
@@ -897,6 +897,11 @@ Shader output, GPU driver behavior, exact pixel values outside goldens, three.js
 > Phase summaries in bold on phase close.
 
 ```
+2026-07-18 · 0.3.5 · feat(server): state snapshot endpoint · (this commit)
+2026-07-18 · 0.3.4 · feat(server): auth, rate limit, cors · (this commit) — gate catch: custom error handler must forward err.statusCode or 429s flatten to 200
+2026-07-18 · 0.3.3 · feat(server): ws hub + replay ring · (this commit) — first attempt of the wiring test raced hello frames against listener attach; fixed with queue-based readers
+2026-07-18 · 0.3.2 · feat(server): agent REST routes · (this commit)
+2026-07-18 · 0.3.1 · feat(server): fastify boot + health · (this commit)
 2026-07-18 · 0.2 · TASK CLOSE — smoke green (playwright harness + dist round-trip script); mirrored to phase/0-foundation
 2026-07-18 · 0.2.4 · feat(shared): JSON schema export · (this commit) — schema/ folder now checked in, regenerated on every shared build
 2026-07-18 · 0.2.3 · feat(shared): status performance mapping spec · (this commit)

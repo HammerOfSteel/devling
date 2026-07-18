@@ -1,6 +1,17 @@
 import { defineConfig } from "vitest/config";
 
+import { fileURLToPath } from "node:url";
+
+const src = (p: string) => fileURLToPath(new URL(p, import.meta.url));
+
 export default defineConfig({
+  resolve: {
+    alias: {
+      "@devling/shared": src("packages/shared/src/index.ts"),
+      "@devling/sim": src("packages/sim/src/index.ts"),
+      "@devling/procgen": src("packages/procgen/src/index.ts"),
+    },
+  },
   test: {
     include: [
       "packages/*/src/**/*.test.ts",
